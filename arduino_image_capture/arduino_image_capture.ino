@@ -1,5 +1,8 @@
 // Arduino Serial-controlled LED example
-const int LED_PIN = 13;
+const int LASER_PIN_1 = 1;
+const int LASER_PIN_2 = 4;
+const int LASER_PIN_3 = 8;
+const int LASER_PIN_4 = 11;
 String line = "";
 
 void setup() {
@@ -13,8 +16,15 @@ void loop() {
     char c = Serial.read();
     if (c == '\n') {
       line.trim();
-      if (line == "LASER ON") digitalWrite(LED_PIN, HIGH);
-      else if (line == "LASER OFF") digitalWrite(LED_PIN, LOW);
+      if (line == "LASER ON"){
+        digitalWrite(LASER_PIN_1, HIGH);
+        digitalWrite(LASER_PIN_2, HIGH);
+        digitalWrite(LASER_PIN_3, HIGH);
+        digitalWrite(LASER_PIN_4, HIGH);
+      }
+      else if (line == "LASER OFF") {
+        digitalWrite(LASER_PIN, LOW);
+      }
       else if (line.startsWith("PWM ")) {
         int val = line.substring(4).toInt(); // 0-255
         analogWrite(9, constrain(val,0,255)); // example PWM on pin 9
