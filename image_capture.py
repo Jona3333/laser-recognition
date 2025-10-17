@@ -1,8 +1,10 @@
+import time
+
 import cv2
 
-def capture_image():
+def capture_image(name):
     # Open the webcam (0 = default camera)
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
 
     if not cap.isOpened():
         print("Error: Could not open webcam")
@@ -16,7 +18,7 @@ def capture_image():
         cv2.imshow("Captured Image", frame)
 
         # Save the image to your computer
-        cv2.imwrite("captured_image.jpg", frame)
+        cv2.imwrite(name + ".jpg", frame)
         print("Image saved as 'captured_image.jpg'")
 
         # Wait until a key is pressed, then close window
@@ -27,3 +29,11 @@ def capture_image():
     # Release the webcam and close windows
     cap.release()
     cv2.destroyAllWindows()
+
+    return frame
+
+
+def images():
+    capture_image("1")
+    time.sleep(0.5)
+    capture_image("2")
