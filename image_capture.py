@@ -27,7 +27,3 @@ def capture_image():
     # Release the webcam and close windows
     cap.release()
     cv2.destroyAllWindows()
-
-
-if __name__ == '__main__':
-    capture_image()
