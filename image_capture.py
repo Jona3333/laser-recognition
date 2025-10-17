@@ -1,24 +1,29 @@
-import serial
+import cv2
 
 
-def capture_image():
-    ser = serial.Serial('COM3', 115200, timeout=5)  # change COM3 to your Arduino port
-    with open('captured.jpg', 'wb') as f:
-        capturing = False
-        while True:
-            line = ser.readline().decode(errors='ignore').strip()
-            if line == "CAPTURING...":
-                print("Capturing image...")
-            elif line.startswith("SIZE:"):
-                size = int(line.split(":")[1])
-                print(f"Receiving {size} bytes...")
-                data = ser.read(size)
-                f.write(data)
-                print("Saved captured.jpg")
-            elif line == "DONE":
-                print("Done!")
-                break
+# Open the webcam (0 = default camera)
+cap = cv2.VideoCapture(0)
 
+if not cap.isOpened():
+    print("Error: Could not open webcam")
+    exit()
 
-if __name__ == '__main__':
-    capture_image()
+# Read a single frame
+ret, frame = cap.read()
+
+if ret:
+    # Display the captured frame
+    cv2.imshow("Captured Image", frame)
+
+    # Save the image to your computer
+    cv2.imwrite("captured_image.jpg", frame)
+    print("Image saved as 'captured_image.jpg'")
+
+    # Wait until a key is pressed, then close window
+    cv2.waitKey(0)
+else:
+    print("Error: Could not capture image")
+
+# Release the webcam and close windows
+cap.release()
+cv2.destroyAllWindows()
