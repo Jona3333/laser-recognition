@@ -1,9 +1,15 @@
 import time
-
 import cv2
+import os
 
 def capture_image(name):
-    # Open the webcam (0 = default camera)
+    # Get the directory where this script is located
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    images_dir = os.path.join(script_dir, "images")
+    os.makedirs(images_dir, exist_ok=True)
+    save_path = os.path.join(images_dir, f"{name}.jpg")
+
+    # Open the webcam (1 = default camera)
     cap = cv2.VideoCapture(1)
 
     if not cap.isOpened():
@@ -14,12 +20,13 @@ def capture_image(name):
     ret, frame = cap.read()
 
     if ret:
+        print(save_path)
         # Display the captured frame
         cv2.imshow("Captured Image", frame)
 
-        # Save the image to your computer
-        cv2.imwrite(name + ".jpg", frame)
-        print("Image saved as 'captured_image.jpg'")
+        # Save the image to /images/name.jpg
+        cv2.imwrite(save_path, frame)
+        print(f"Image saved as '{save_path}'")
 
         # Wait until a key is pressed, then close window
         cv2.waitKey(0)
@@ -31,7 +38,6 @@ def capture_image(name):
     cv2.destroyAllWindows()
 
     return frame
-
 
 def images():
     capture_image("1")

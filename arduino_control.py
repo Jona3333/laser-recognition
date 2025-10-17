@@ -3,6 +3,7 @@ import time
 from serial.tools import list_ports
 import image_capture
 
+
 def arduino_control():
     # find available ports (pick the one that matches your Arduino)
     ports = list(list_ports.comports())
